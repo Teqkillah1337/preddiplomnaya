@@ -1,0 +1,182 @@
+﻿<Window x:Class="PCInventory.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="PCInventory" 
+        Height="1080" Width="1920"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левая панель - Панель управления -->
+        <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- Заголовок -->
+                    <TextBlock Text="Панель управления" Style="{StaticResource SectionHeader}"/>
+
+                    <!-- Секция: Сканирование сети -->
+                    <TextBlock Text="🔍 Сканирование сети" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <Button x:Name="btnScanNetwork" Content="Сканировать локальную сеть" Style="{StaticResource PrimaryButton}"/>
+                    <Button x:Name="btnStopScan" Content="Остановить сканирование" Style="{StaticResource SecondaryButton}" IsEnabled="False"/>
+
+                    <!-- Разделитель -->
+                    <Border Height="1" Background="{DynamicResource MaterialDesignDivider}" Margin="0,20,0,20"/>
+
+                    <!-- Секция: Управление компьютерами -->
+                    <TextBlock Text="💻 Управление компьютерами" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <Button x:Name="btnCollectAll" Content="Собрать данные со всех" Style="{StaticResource PrimaryButton}"/>
+                    <Button x:Name="btnUpdateSelected" Content="Обновить выбранные" Style="{StaticResource SecondaryButton}"/>
+                    <Button x:Name="btnClearList" Content="Очистить список" Style="{StaticResource SecondaryButton}"/>
+
+                    <!-- Разделитель -->
+                    <Border Height="1" Background="{DynamicResource MaterialDesignDivider}" Margin="0,20,0,20"/>
+
+                    <!-- Секция: Экспорт данных -->
+                    <TextBlock Text="📤 Экспорт данных" FontWeight="SemiBold" Margin="0,0,0,10"/>
+
+                    <ComboBox x:Name="cmbExportFormat"
+                              materialDesign:HintAssist.Hint="Формат экспорта"
+                              Margin="0,0,0,10"
+                              Height="35">
+                        <ComboBoxItem Content="HTML документ" Tag="HTML"/>
+                        <ComboBoxItem Content="JSON данные" Tag="JSON"/>
+                        <ComboBoxItem Content="Excel таблица" Tag="Excel"/>
+                    </ComboBox>
+
+                    <Button x:Name="btnExportAll" Content="Экспортировать всё" Style="{StaticResource PrimaryButton}"/>
+                    <Button x:Name="btnExportSelected" Content="Экспортировать выбранные" Style="{StaticResource SecondaryButton}"/>
+
+                    <!-- Разделитель -->
+                    <Border Height="1" Background="{DynamicResource MaterialDesignDivider}" Margin="0,20,0,20"/>
+
+                    <!-- Секция: Дополнительно -->
+                    <TextBlock Text="⚙️ Дополнительно" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <Button x:Name="btnCompare" Content="Сравнить конфигурации" Style="{StaticResource SecondaryButton}"/>
+                    <Button x:Name="btnSettings" Content="Настройки" Style="{StaticResource SecondaryButton}"/>
+                    <Button x:Name="btnAbout" Content="О программе" Style="{StaticResource SecondaryButton}"/>
+
+                    <!-- Разделитель -->
+                    <Border Height="1" Background="{DynamicResource MaterialDesignDivider}" Margin="0,20,0,20"/>
+
+                    <!-- Статус операций -->
+                    <TextBlock Text="📊 Статус" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <TextBlock x:Name="txtProgress" Text="Готов" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Правая панель - Список компьютеров -->
+        <Grid Grid.Column="1" Margin="20,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок и статистика -->
+            <Border Grid.Row="0" Style="{StaticResource CardStyle}" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="Обнаруженные компьютеры" Style="{StaticResource SectionHeader}"/>
+
+                    <WrapPanel>
+                        <Border Background="{DynamicResource PrimaryHueLightBrush}" CornerRadius="4" Padding="8,4" Margin="0,0,10,0">
+                            <TextBlock>
+                                <Run Text="Всего:" FontWeight="Bold"/>
+                                <Run x:Name="txtTotalCount" Text="0"/>
+                            </TextBlock>
+                        </Border>
+
+                        <Border Background="#E8F5E9" CornerRadius="4" Padding="8,4" Margin="0,0,10,0">
+                            <TextBlock>
+                                <Run Text="Онлайн:" FontWeight="Bold"/>
+                                <Run x:Name="txtOnlineCount" Text="0" Foreground="Green"/>
+                            </TextBlock>
+                        </Border>
+
+                        <Border Background="#FFEBEE" CornerRadius="4" Padding="8,4" Margin="0,0,10,0">
+                            <TextBlock>
+                                <Run Text="Оффлайн:" FontWeight="Bold"/>
+                                <Run x:Name="txtOfflineCount" Text="0" Foreground="Red"/>
+                            </TextBlock>
+                        </Border>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Список компьютеров -->
+            <Border Grid.Row="1" Style="{StaticResource CardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Панель поиска -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
+                        <TextBox x:Name="txtSearch" 
+                                 materialDesign:HintAssist.Hint="Поиск по имени или IP..."
+                                 Width="300" 
+                                 Height="35"
+                                 Margin="0,0,10,0"/>
+                        <Button x:Name="btnRefresh" 
+                                Style="{StaticResource IconButton}"
+                                ToolTip="Обновить">
+                            <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20"/>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- DataGrid с компьютерами -->
+                    <DataGrid x:Name="dgComputers" 
+                              Grid.Row="1"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              SelectionMode="Extended"
+                              SelectionUnit="FullRow"
+                              GridLinesVisibility="None"
+                              RowBackground="Transparent"
+                              AlternatingRowBackground="{DynamicResource MaterialDesignGrid}"
+                              BorderBrush="{DynamicResource MaterialDesignDivider}"
+                              BorderThickness="1">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Выбор" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Имя ПК" Binding="{Binding ComputerName}" Width="150"/>
+                            <DataGridTextColumn Header="IP адрес" Binding="{Binding IPAddress}" Width="120"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+                            <DataGridTextColumn Header="Операционная система" Binding="{Binding OS}" Width="180"/>
+                            <DataGridTextColumn Header="Процессор" Binding="{Binding CPU}" Width="200"/>
+                            <DataGridTextColumn Header="ОЗУ" Binding="{Binding RAM}" Width="80"/>
+                            <DataGridTextColumn Header="Последнее обновление" Binding="{Binding LastUpdate}" Width="180"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+
+            <!-- Нижняя панель с групповыми операциями -->
+            <Border Grid.Row="2" Style="{StaticResource CardStyle}" Margin="0,10,0,0">
+                <StackPanel>
+                    <TextBlock Text="Групповые операции" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <WrapPanel>
+                        <Button x:Name="btnGeneratePassports" Content="Сформировать сведения" Style="{StaticResource PrimaryButton}"/>
+                        <Button x:Name="btnWakeOnLAN" Content="Включить удаленно" Style="{StaticResource SecondaryButton}"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

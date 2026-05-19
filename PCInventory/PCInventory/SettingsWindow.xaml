@@ -1,0 +1,70 @@
+﻿<Window x:Class="PCInventory.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Настройки" 
+        Height="450" Width="550"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource MaterialDesignPaper}">
+
+    <Border Margin="15" CornerRadius="8" Background="{DynamicResource MaterialDesignCardBackground}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TabControl Grid.Row="0" BorderThickness="0" Margin="10">
+                <TabItem Header="🌐 Сеть">
+                    <StackPanel Margin="15">
+                        <TextBlock Text="Параметры сканирования" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <WrapPanel Margin="0,0,0,15">
+                            <TextBlock Text="Таймаут (мс):" Width="120" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtNetworkTimeout" Text="100" Width="80"/>
+                        </WrapPanel>
+
+                        <CheckBox x:Name="chkResolveNames" Content="Определять имена компьютеров" Margin="0,0,0,10" IsChecked="True"/>
+                        <CheckBox x:Name="chkUseWMI" Content="Использовать WMI для сбора данных" Margin="0,0,0,10" IsChecked="True"/>
+
+                        <Separator Margin="0,15,0,15"/>
+
+                        <TextBlock Text="Автообновление" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <WrapPanel Margin="0,0,0,10">
+                            <CheckBox x:Name="chkAutoRefresh" Content="Автоматически обновлять данные каждые" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtRefreshInterval" Text="60" Width="50" Margin="10,0,5,0"/>
+                            <TextBlock Text="минут" VerticalAlignment="Center"/>
+                        </WrapPanel>
+
+                        <TextBlock Text="* Данные будут автоматически пересобираться с компьютеров" 
+                                   FontSize="11" Foreground="Gray" Margin="25,5,0,0" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="📁 Экспорт">
+                    <StackPanel Margin="15">
+                        <TextBlock Text="Папка для сохранения" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <WrapPanel Margin="0,0,0,15">
+                            <TextBox x:Name="txtExportPath" Width="350" IsReadOnly="True"/>
+                            <Button x:Name="btnBrowseFolder" Content="..." Width="40" Margin="5,0,0,0"/>
+                        </WrapPanel>
+
+                        <TextBlock Text="Форматы по умолчанию" FontWeight="Bold" Margin="0,15,0,10"/>
+                        <CheckBox x:Name="chkExportHTML" Content="HTML сведения" Margin="20,0,0,5" IsChecked="True"/>
+                        <CheckBox x:Name="chkExportPDF" Content="PDF сведения" Margin="20,0,0,5" IsChecked="True"/>
+                        <CheckBox x:Name="chkExportJSON" Content="JSON сведения" Margin="20,0,0,5" IsChecked="True"/>
+                        <CheckBox x:Name="chkExportExcel" Content="Excel отчет" Margin="20,0,0,5" IsChecked="True"/>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,15,15">
+                <Button x:Name="btnSave" Content="Сохранить" Style="{StaticResource PrimaryButton}" Width="120"/>
+                <Button x:Name="btnCancel" Content="Отмена" Style="{StaticResource SecondaryButton}" Width="120"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

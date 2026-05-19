@@ -1,0 +1,44 @@
+﻿<Window x:Class="PCInventory.InventoryNumberWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Инвентарный номер" 
+        Height="277" Width="537"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource MaterialDesignPaper}">
+
+    <Border Margin="15" CornerRadius="8" Background="{DynamicResource MaterialDesignCardBackground}">
+        <StackPanel Margin="20">
+            <TextBlock Text="Введите инвентарный номер" 
+                       FontSize="14" 
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource PrimaryHueMidBrush}"
+                       Margin="0,0,0,15"
+                       HorizontalAlignment="Center"/>
+
+            <TextBox x:Name="txtInventoryNumber" 
+                     materialDesign:HintAssist.Hint="Инвентарный номер (необязательно)"
+                     Margin="0,0,0,20"
+                     Height="40"/>
+
+            <TextBlock Text="* Если оставить поле пустым, сведения будут созданы без инвентарного номера"
+                       FontSize="11"
+                       Foreground="Gray"
+                       Margin="0,0,0,20"
+                       TextWrapping="Wrap"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnOk" 
+                        Content="Сохранить сведения" 
+                        Style="{StaticResource PrimaryButton}"
+                        Width="150"
+                        Margin="0,0,10,0"/>
+                <Button x:Name="btnCancel" 
+                        Content="Отмена" 
+                        Style="{StaticResource SecondaryButton}"
+                        Width="100"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

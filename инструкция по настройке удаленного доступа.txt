@@ -1,0 +1,93 @@
+Инструкция по настройке удаленной инвентаризации компьютеров
+
+Способ 1: Быстрая настройка через PowerShell (рекомендуется)
+
+Запустите PowerShell от имени администратора и выполните команды по порядку:
+
+# 1. Разрешаем ICMP (ping) для проверки связи
+netsh advfirewall firewall add rule name="ICMP Allow" protocol=icmpv4 dir=in action=allow
+
+# 2. Разрешаем порт 135 (DCOM)
+netsh advfirewall firewall add rule name="WMI - DCOM" dir=in action=allow protocol=TCP localport=135
+
+# 3. Разрешаем службу WMI
+netsh advfirewall firewall add rule name="WMI - Winmgmt" dir=in action=allow program="%windir%\system32\svchost.exe" service="winmgmt"
+
+# 4. Разрешаем процесс WMI
+netsh advfirewall firewall add rule name="Windows Management Instrumentation (WMI)" dir=in action=allow program="%windir%\system32\wbem\wmiprvse.exe"
+
+# 5. Настраиваем аутентификацию (ВАЖНО!)
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "LocalAccountTokenFilterPolicy" /t REG_DWORD /d 1 /f
+
+# 6. Запускаем и настраиваем WinRM
+winrm quickconfig -quiet
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force
+
+# 7. Перезапускаем службу WMI
+net stop winmgmt
+net start winmgmt
+
+Способ 2: Создать bat-файл для настройки
+
+Создайте файл SetupRemotePC.bat и запустите от имени администратора:
+
+@echo off
+title Настройка ПК для удаленной инвентаризации
+color 0A
+echo ==================================================
+echo     Настройка ПК для удаленной инвентаризации
+echo ==================================================
+echo.
+
+echo [1/7] Разрешаем ICMP (ping)...
+netsh advfirewall firewall add rule name="ICMP Allow" protocol=icmpv4 dir=in action=allow >nul
+echo OK
+
+echo [2/7] Разрешаем порт 135 (DCOM)...
+netsh advfirewall firewall add rule name="WMI - DCOM" dir=in action=allow protocol=TCP localport=135 >nul
+echo OK
+
+echo [3/7] Разрешаем службу WMI...
+netsh advfirewall firewall add rule name="WMI - Winmgmt" dir=in action=allow program="%%windir%%\system32\svchost.exe" service="winmgmt" >nul
+echo OK
+
+echo [4/7] Разрешаем процесс WMI...
+netsh advfirewall firewall add rule name="Windows Management Instrumentation (WMI)" dir=in action=allow program="%%windir%%\system32\wbem\wmiprvse.exe" >nul
+echo OK
+
+echo [5/7] Настраиваем аутентификацию...
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "LocalAccountTokenFilterPolicy" /t REG_DWORD /d 1 /f >nul
+echo OK
+
+echo [6/7] Настраиваем WinRM...
+winrm quickconfig -quiet >nul
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "*" -Force >nul
+echo OK
+
+echo [7/7] Перезапускаем службу WMI...
+net stop winmgmt >nul
+net start winmgmt >nul
+echo OK
+
+echo.
+echo ==================================================
+echo     Настройка завершена успешно!
+echo ==================================================
+echo.
+echo Теперь с этого компьютера можно собирать информацию
+echo.
+pause
+
+Проверка настройки
+
+На компьютере администратора (где программа)
+
+Выполните проверку подключения к целевому ПК:
+
+# Замените IP на адрес целевого компьютера
+ping 10.22.141.52
+
+# Проверка WMI (должен показать имя компьютера)
+wmic /node:"10.22.141.52" computersystem get name
+
+Если команда wmic показала имя компьютера - настройка выполнена правильно.

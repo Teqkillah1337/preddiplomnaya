@@ -1,0 +1,135 @@
+﻿<Window x:Class="PCInventory.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="О программе" 
+        Height="600" Width="700"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource MaterialDesignPaper}">
+
+    <Border Margin="20" CornerRadius="8" Background="{DynamicResource MaterialDesignCardBackground}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+                <!-- Заголовок -->
+                <TextBlock Text="ИНВЕНТАРИЗАТОР ПК" 
+                           FontSize="20" 
+                           FontWeight="Bold" 
+                           Foreground="{DynamicResource PrimaryHueMidBrush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+                <!-- Версия -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Версия:" 
+                               FontWeight="SemiBold" 
+                               Width="150"/>
+                    <TextBlock Text="1.0.0 (Демо-версия)"/>
+                </StackPanel>
+
+                <!-- Автор -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Разработчик:" 
+                               FontWeight="SemiBold" 
+                               Width="150"/>
+                    <TextBlock Text="Беляев Данил Игоревич" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!-- Дата сборки -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <TextBlock Text="Дата сборки:" 
+                               FontWeight="SemiBold" 
+                               Width="150"/>
+                    <TextBlock Text="03.12.2025"/>
+                </StackPanel>
+
+                <!-- Описание программы -->
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="Описание программы:" 
+                               FontWeight="SemiBold" 
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="Программа для автоматизированной инвентаризации компьютерной техники в локальной сети. Позволяет администратору удаленно собирать информацию о компьютерах, формировать сведения об оборудовании в различных форматах и управлять IT-инфраструктурой." 
+                               TextWrapping="Wrap" 
+                               TextAlignment="Justify"/>
+                </StackPanel>
+
+                <!-- Основные возможности -->
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="📋 Основные возможности:" 
+                               FontWeight="SemiBold" 
+                               Margin="0,0,0,10"/>
+
+                    <StackPanel Margin="15,0,0,0">
+                        <TextBlock Text="• Автоматическое сканирование локальной сети" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• Сбор аппаратной информации с компьютеров" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• Сбор данных об установленном ПО и драйверах" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• Формирование паспортов в различных форматах" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• Сравнение конфигураций оборудования" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• Управление компьютерной техникой" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Форматы экспорта -->
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="📤 Поддерживаемые форматы экспорта:" 
+                               FontWeight="SemiBold" 
+                               Margin="0,0,0,10"/>
+
+                    <StackPanel Margin="15,0,0,0">
+                        <TextBlock Text="• HTML — для просмотра в браузере" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• PDF — для печати и документооборота" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• JSON — для обработки другими программами" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• Excel — для создания отчетов и анализа" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Технологии -->
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="⚙️ Используемые технологии:" 
+                               FontWeight="SemiBold" 
+                               Margin="0,0,0,10"/>
+
+                    <StackPanel Margin="15,0,0,0">
+                        <TextBlock Text="• Язык программирования: C#" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• Платформа: .NET Framework 4.8" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• Интерфейс: WPF с Material Design" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock Text="• Сбор информации: WMI, NetBIOS, SNMP" 
+                                   TextWrapping="Wrap" 
+                                   Margin="0,0,0,5"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Кнопки -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                    <Button x:Name="btnClose" Content="Закрыть" Style="{StaticResource SecondaryButton}" Width="120" Click="BtnClose_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</Window>
